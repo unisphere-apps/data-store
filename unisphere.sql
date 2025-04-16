@@ -1,13 +1,9 @@
-CREATE DATABASE unisphere
-CHARACTER SET utf8mb3
-COLLATE utf8mb3_general_ci;
-
 -- phpMyAdmin SQL Dump
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 06, 2025 at 07:02 PM
+-- Generation Time: Apr 16, 2025 at 12:33 PM
 -- Server version: 8.0.30
 -- PHP Version: 7.4.32
 
@@ -54,7 +50,7 @@ CREATE TABLE `atl_annonces` (
   `places_disponibles` int DEFAULT NULL,
   `prix` float DEFAULT NULL,
   `statut` enum('ouverte','fermée','annulée') DEFAULT 'ouverte'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -81,7 +77,7 @@ CREATE TABLE `atl_passagers_par_annonce` (
   `id` int NOT NULL,
   `annonce_id` int DEFAULT NULL,
   `passager_id` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -95,7 +91,7 @@ CREATE TABLE `atl_reservations` (
   `passager_id` int DEFAULT NULL,
   `statut` enum('en attente','confirmée','annulée') DEFAULT 'en attente',
   `date_reservation` datetime DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -109,7 +105,7 @@ CREATE TABLE `atl_trajets` (
   `conducteur_id` int DEFAULT NULL,
   `passager_id` int DEFAULT NULL,
   `date_effective` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -126,7 +122,7 @@ CREATE TABLE `bel_activites` (
   `capacite` int DEFAULT NULL,
   `statut` enum('ouverte','complète','annulée') DEFAULT 'ouverte',
   `organisateur_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `bel_activites`
@@ -149,17 +145,18 @@ CREATE TABLE `bel_reservations` (
   `activite_id` int NOT NULL,
   `date` datetime DEFAULT CURRENT_TIMESTAMP,
   `statut` enum('confirmée','annulée') DEFAULT 'confirmée'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `bel_reservations`
 --
 
 INSERT INTO `bel_reservations` (`id_reservation`, `utilisateur_id`, `activite_id`, `date`, `statut`) VALUES
-(1, 1, 1, '2025-03-26 10:00:00', 'confirmée'),
 (2, 2, 2, '2025-03-26 11:00:00', 'confirmée'),
-(4, 1, 2, '2025-04-02 10:27:53', 'confirmée'),
-(5, 1, 2, '2025-04-02 15:36:34', 'confirmée');
+(6, 4, 1, '2025-04-09 00:59:39', 'confirmée'),
+(8, 4, 2, '2025-04-09 01:00:31', 'confirmée'),
+(9, 1, 3, '2025-04-09 01:00:49', 'confirmée'),
+(10, 7, 1, '2025-04-09 01:02:22', 'confirmée');
 
 -- --------------------------------------------------------
 
@@ -495,13 +492,13 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id_user`, `nom`, `prenom`, `etablissement`, `email`, `mdp`, `role_id`, `token`) VALUES
-(1, 'Guerrand', 'Anthony', 'iris', 'anthony.guerrand92@gmail.com', 'root', 3, NULL),
+(1, 'Guerrand', 'Anthony', 'iris', 'anthony.guerrand92@gmail.com', 'root', 3, '43b0f964e7fd6beeda62872cb83038047c3f24147af5742b95b4a3b1dcfdbb75'),
 (2, 'LOL', 'Alex', 'iris', 'fqf@gmail.com', 'root', 1, NULL),
 (3, 'Pito', 'Jean', 'epita', 'jp@free.fr', 'root', 1, '572229f4935bfa564ca85bd83c0fd2aa2c46c3a5868f8bd156d198feacaea170'),
-(4, 'alves', 'helder', 'iris', 'h@gmail.com', '123', 1, NULL),
+(4, 'alves', 'helder', 'iris', 'h@gmail.com', '123', 1, 'b4ce7108a42865b83cddc2890baaefe6b235a6abada696f107c7122f558658b6'),
 (5, 'Guillaume ', 'Jean-marc', 'iris', 'a@gmail.com', '123456', 1, NULL),
 (6, 'Dah', 'Jerome', 'iris', 'user@gmail.com', 'root', 1, NULL),
-(7, 'toto', 'ayu', 'essec', 'aa@gmail.com', 'root', 1, NULL);
+(7, 'toto', 'ayu', 'essec', 'aa@gmail.com', 'root', 1, 'ed67b9023515606548bf8bea2925d5007dc91e93fdf8ad16c17ade97df2dda08');
 
 --
 -- Triggers `user`
@@ -778,7 +775,7 @@ ALTER TABLE `bel_activites`
 -- AUTO_INCREMENT for table `bel_reservations`
 --
 ALTER TABLE `bel_reservations`
-  MODIFY `id_reservation` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_reservation` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `cap_activity_log`
