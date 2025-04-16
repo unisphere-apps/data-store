@@ -1,3 +1,7 @@
+CREATE DATABASE unisphere
+CHARACTER SET utf8mb3
+COLLATE utf8mb3_general_ci;
+
 -- phpMyAdmin SQL Dump
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
@@ -50,7 +54,7 @@ CREATE TABLE `atl_annonces` (
   `places_disponibles` int DEFAULT NULL,
   `prix` float DEFAULT NULL,
   `statut` enum('ouverte','fermée','annulée') DEFAULT 'ouverte'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
@@ -77,7 +81,7 @@ CREATE TABLE `atl_passagers_par_annonce` (
   `id` int NOT NULL,
   `annonce_id` int DEFAULT NULL,
   `passager_id` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
@@ -91,7 +95,7 @@ CREATE TABLE `atl_reservations` (
   `passager_id` int DEFAULT NULL,
   `statut` enum('en attente','confirmée','annulée') DEFAULT 'en attente',
   `date_reservation` datetime DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
@@ -105,7 +109,7 @@ CREATE TABLE `atl_trajets` (
   `conducteur_id` int DEFAULT NULL,
   `passager_id` int DEFAULT NULL,
   `date_effective` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
@@ -122,7 +126,7 @@ CREATE TABLE `bel_activites` (
   `capacite` int DEFAULT NULL,
   `statut` enum('ouverte','complète','annulée') DEFAULT 'ouverte',
   `organisateur_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb3_general_ci;
 
 --
 -- Dumping data for table `bel_activites`
@@ -145,7 +149,7 @@ CREATE TABLE `bel_reservations` (
   `activite_id` int NOT NULL,
   `date` datetime DEFAULT CURRENT_TIMESTAMP,
   `statut` enum('confirmée','annulée') DEFAULT 'confirmée'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb3_general_ci;
 
 --
 -- Dumping data for table `bel_reservations`
