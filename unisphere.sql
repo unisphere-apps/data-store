@@ -1,16 +1,9 @@
-CREATE DATABASE IF NOT EXISTS unisphere
-CHARACTER SET utf8mb4
-COLLATE utf8mb4_0900_ai_ci;
-
--- Utilisation de la base de données
-USE unisphere;
-
 -- phpMyAdmin SQL Dump
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 16, 2025 at 12:33 PM
+-- Generation Time: May 08, 2025 at 09:47 AM
 -- Server version: 8.0.30
 -- PHP Version: 7.4.32
 
@@ -138,7 +131,21 @@ CREATE TABLE `bel_activites` (
 INSERT INTO `bel_activites` (`id_activite`, `titre`, `description`, `lieu`, `date`, `capacite`, `statut`, `organisateur_id`) VALUES
 (1, 'Atelier Peinture', 'Atelier créatif de peinture sur toile', 'Salle A1', '2025-04-10 14:00:00', 20, 'ouverte', 1),
 (2, 'Cours de Yoga', 'Session de yoga pour débutants', 'Salle B2', '2025-04-12 10:00:00', 15, 'ouverte', 2),
-(3, 'Escape Game', 'Jeu d\'évasion en équipe', 'Salle C3', '2025-04-15 18:00:00', 8, 'ouverte', 3);
+(3, 'Escape Game', 'Jeu d\'évasion en équipe', 'Salle C3', '2025-04-28 18:00:00', 8, 'ouverte', 3),
+(4, 'Tournoi d\'échecs', 'Compétition ouverte à tous les niveaux', 'Salle B2', '2025-05-20 14:00:00', 20, 'ouverte', 3),
+(9, 'test', 'test', 'D1', '2025-01-02 00:00:00', 20, 'ouverte', 8),
+(14, 'Tournoi foot', '4 matchs', 'Stade Berlin', '2025-07-01 00:00:00', 22, 'ouverte', 1);
+
+--
+-- Triggers `bel_activites`
+--
+DELIMITER $$
+CREATE TRIGGER `before_delete_activite` BEFORE DELETE ON `bel_activites` FOR EACH ROW BEGIN
+    DELETE FROM bel_reservations
+    WHERE activite_id = OLD.id_activite;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -159,11 +166,7 @@ CREATE TABLE `bel_reservations` (
 --
 
 INSERT INTO `bel_reservations` (`id_reservation`, `utilisateur_id`, `activite_id`, `date`, `statut`) VALUES
-(2, 2, 2, '2025-03-26 11:00:00', 'confirmée'),
-(6, 4, 1, '2025-04-09 00:59:39', 'confirmée'),
-(8, 4, 2, '2025-04-09 01:00:31', 'confirmée'),
-(9, 1, 3, '2025-04-09 01:00:49', 'confirmée'),
-(10, 7, 1, '2025-04-09 01:02:22', 'confirmée');
+(27, 11, 4, '2025-05-07 16:23:26', 'confirmée');
 
 -- --------------------------------------------------------
 
@@ -216,7 +219,19 @@ INSERT INTO `cap_activity_log` (`id`, `activity_type`, `details`, `created_at`) 
 (31, 'Subscription Added', 'Subscriber ID: 1, Subscribed To ID: 6', '2025-02-19 13:59:50'),
 (32, 'Like Added', 'Post ID: 12, User ID: 7', '2025-02-19 14:02:23'),
 (33, 'Subscription Added', 'Subscriber ID: 7, Subscribed To ID: 1', '2025-02-19 14:02:24'),
-(34, 'Post Created', 'Post ID: 14, User ID: 7', '2025-02-19 14:02:36');
+(34, 'Post Created', 'Post ID: 14, User ID: 7', '2025-02-19 14:02:36'),
+(35, 'Like Added', 'Post ID: 12, User ID: 4', '2025-05-07 11:23:11'),
+(36, 'Subscription Added', 'Subscriber ID: 4, Subscribed To ID: 1', '2025-05-07 11:23:15'),
+(37, 'Post Created', 'Post ID: 15, User ID: 4', '2025-05-07 11:23:26'),
+(38, 'Post Created', 'Post ID: 16, User ID: 1', '2025-05-07 11:27:03'),
+(39, 'Like Added', 'Post ID: 16, User ID: 1', '2025-05-07 11:31:28'),
+(40, 'Post Created', 'Post ID: 17, User ID: 1', '2025-05-07 11:47:41'),
+(41, 'Post Created', 'Post ID: 18, User ID: 11', '2025-05-07 14:29:02'),
+(42, 'Post Created', 'Post ID: 19, User ID: 11', '2025-05-07 14:29:12'),
+(43, 'Like Added', 'Post ID: 16, User ID: 11', '2025-05-07 14:29:17'),
+(44, 'Post Created', 'Post ID: 20, User ID: 11', '2025-05-07 14:35:49'),
+(45, 'Post Created', 'Post ID: 21, User ID: 11', '2025-05-07 14:36:00'),
+(46, 'Like Added', 'Post ID: 20, User ID: 11', '2025-05-07 14:36:10');
 
 -- --------------------------------------------------------
 
@@ -235,12 +250,9 @@ CREATE TABLE `cap_like` (
 --
 
 INSERT INTO `cap_like` (`id_post`, `user_id`, `post_id`) VALUES
-(2, 1, 3),
-(4, 5, 3),
-(6, 6, 5),
-(7, 6, 3),
-(8, 5, 6),
-(9, 1, 12);
+(12, 1, 16),
+(13, 11, 16),
+(14, 11, 20);
 
 --
 -- Triggers `cap_like`
@@ -286,15 +298,11 @@ CREATE TABLE `cap_post` (
 --
 
 INSERT INTO `cap_post` (`id_post`, `contenu`, `post_id`, `user_id`, `CreatedAt`) VALUES
-(3, '2026 bitcoin 200k tkt', NULL, 2, '2025-01-06 13:07:26'),
-(4, 'ok', NULL, 1, '2025-02-04 12:08:26'),
-(5, 'BO6 > MV3', NULL, 5, '2025-02-04 13:37:49'),
-(6, 'GTA 6 en Q4 2025', NULL, 6, '2025-02-04 14:07:48'),
-(7, 'de fou', 5, 6, '2025-02-04 14:07:57'),
-(9, 'jamais', 6, 1, '2025-02-04 14:11:08'),
-(10, 'mdr ok', 3, 1, '2025-02-04 14:18:16'),
-(12, 'test', NULL, 1, '2025-02-19 12:59:27'),
-(14, 'bonsoir', 12, 7, '2025-02-19 13:02:37');
+(16, 'Hello', NULL, 1, '2025-05-07 09:27:04'),
+(18, 'Bonjour !', NULL, 11, '2025-05-07 12:29:02'),
+(19, 'ca va ?', 16, 11, '2025-05-07 12:29:13'),
+(20, 'GTA 6 bientot !', NULL, 11, '2025-05-07 12:35:49'),
+(21, 'bonsoir', 16, 11, '2025-05-07 12:36:00');
 
 --
 -- Triggers `cap_post`
@@ -338,7 +346,8 @@ INSERT INTO `cap_subscription` (`id`, `subscriber_id`, `subscribed_to_id`, `crea
 (6, 6, 5, '2025-02-04 15:08:13'),
 (7, 6, 1, '2025-02-04 15:08:15'),
 (8, 1, 6, '2025-02-19 13:59:50'),
-(9, 7, 1, '2025-02-19 14:02:24');
+(9, 7, 1, '2025-02-19 14:02:24'),
+(10, 4, 1, '2025-05-07 11:23:15');
 
 --
 -- Triggers `cap_subscription`
@@ -415,7 +424,9 @@ INSERT INTO `pol_reponse_ticket` (`id_reponse`, `date_reponse`, `contenu`, `user
 (24, '2024-12-18 14:38:47', 'test', 1, 17),
 (27, '2025-01-08 17:21:51', 'marche pas', 1, 21),
 (28, '2025-01-08 17:25:25', 'A l\'aide', 6, 22),
-(29, '2025-01-08 17:25:49', 'Merci de patienter', 1, 22);
+(29, '2025-01-08 17:25:49', 'Merci de patienter', 1, 22),
+(30, '2025-04-24 15:45:10', 'Besoin d\'aide', 7, 24),
+(31, '2025-04-24 15:45:38', 'Essayer de redémarrer', 1, 24);
 
 -- --------------------------------------------------------
 
@@ -441,11 +452,13 @@ INSERT INTO `pol_ticket` (`id_ticket`, `date_creation`, `sujet`, `description`, 
 (2, '2024-11-25 16:29:35', 'Erreur système', 'Un message d’erreur s’affiche lorsque j’essaie de sauvegarder mes modifications.', 'ouvert', 1, 3),
 (3, '2024-11-25 16:29:35', 'Problème de paiement', 'Le paiement par carte bancaire échoue sur la page de commande.', 'ouvert', 1, 4),
 (4, '2024-11-25 16:29:35', 'Demande d’assistance', 'Je souhaite être aidé pour configurer mon profil utilisateur.', 'fermé', 1, 1),
-(5, '2024-11-25 16:29:35', 'Suggestion d’amélioration', 'Serait-il possible d’ajouter un mode sombre à l’application ?', 'ouvert', 1, 5),
+(5, '2024-11-25 16:29:35', 'Suggestion d’amélioration', 'Serait-il possible d’ajouter un mode sombre à l’application ?', 'fermé', 1, 5),
 (6, '2024-11-25 16:29:35', 'Bug d’affichage', 'Certains textes ne s’affichent pas correctement sur mobile.', 'ouvert', 1, 3),
-(17, '2024-12-11 15:36:35', 'Probleme PC', 'PC HS', 'ouvert', 6, 1),
+(17, '2024-12-11 15:36:35', 'Probleme PC', 'PC HS', 'fermé', 6, 1),
 (21, '2025-01-08 16:21:39', 'Problème de connexion sur Capella', 'Connexion HS', 'ouvert', 1, 1),
-(22, '2025-01-08 16:25:17', 'Probleme PC', 'PC HS', 'ouvert', 6, 1);
+(22, '2025-01-08 16:25:17', 'Probleme PC', 'PC HS', 'ouvert', 6, 1),
+(23, '2025-04-24 13:42:35', 'Probleme PC', 'help', 'fermé', 1, 2),
+(24, '2025-04-24 13:44:59', 'Adobe bug', 'Ecran noir', 'ouvert', 7, 2);
 
 --
 -- Triggers `pol_ticket`
@@ -499,13 +512,17 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id_user`, `nom`, `prenom`, `etablissement`, `email`, `mdp`, `role_id`, `token`) VALUES
-(1, 'Guerrand', 'Anthony', 'iris', 'anthony.guerrand92@gmail.com', 'root', 3, '43b0f964e7fd6beeda62872cb83038047c3f24147af5742b95b4a3b1dcfdbb75'),
+(1, 'ADMIN', 'Anthony', 'iris', 'admin@gmail.com', 'root', 3, 'd85ee5a5be4af0a2e822495b3ef2d6b0d58e312d7e0cdd802f64acb7fd6c5e94'),
 (2, 'LOL', 'Alex', 'iris', 'fqf@gmail.com', 'root', 1, NULL),
 (3, 'Pito', 'Jean', 'epita', 'jp@free.fr', 'root', 1, '572229f4935bfa564ca85bd83c0fd2aa2c46c3a5868f8bd156d198feacaea170'),
-(4, 'alves', 'helder', 'iris', 'h@gmail.com', '123', 1, 'b4ce7108a42865b83cddc2890baaefe6b235a6abada696f107c7122f558658b6'),
+(4, 'alves', 'helder', 'iris', 'h@gmail.com', '123', 1, '1a9dbffeb63209fd5a14a1fc2bd151ee3841960340d517569828d9e8f6bc17f5'),
 (5, 'Guillaume ', 'Jean-marc', 'iris', 'a@gmail.com', '123456', 1, NULL),
 (6, 'Dah', 'Jerome', 'iris', 'user@gmail.com', 'root', 1, NULL),
-(7, 'toto', 'ayu', 'essec', 'aa@gmail.com', 'root', 1, 'ed67b9023515606548bf8bea2925d5007dc91e93fdf8ad16c17ade97df2dda08');
+(7, 'toto', 'ayu', 'essec', 'aa@gmail.com', 'root', 1, 'ed67b9023515606548bf8bea2925d5007dc91e93fdf8ad16c17ade97df2dda08'),
+(8, 'John', 'Doe', 'IRISE', 'j@free.fr', 'root', 2, 'b08d2bdc3f3762bf13442038e07e19f8ab9479d29c652bdb969ca18e0f71c8e4'),
+(9, 'Dupont', 'Jean', 'IRIS', 'j@gmail.com', 'root', 1, '54eb8db1ea1baf960ff135f6afeb1d3956ff2e2659a48f2e700059afad4b78f3'),
+(10, 'arc', 'michel', 'ESSEC', 'ma@free.fr', 'root', 1, '0889e11a357ea2bad33044cdb44e5575e5767edad0aee24b73a0049b0346c3b5'),
+(11, 'Dupont', 'Marc', 'IRIS', 'md@gmail.com', 'root', 1, 'ddbb40bfc0f8c3349b18268ab9e87d5871e895756d2be763052d7c0175ce117f');
 
 --
 -- Triggers `user`
@@ -776,37 +793,37 @@ ALTER TABLE `atl_trajets`
 -- AUTO_INCREMENT for table `bel_activites`
 --
 ALTER TABLE `bel_activites`
-  MODIFY `id_activite` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_activite` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `bel_reservations`
 --
 ALTER TABLE `bel_reservations`
-  MODIFY `id_reservation` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_reservation` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `cap_activity_log`
 --
 ALTER TABLE `cap_activity_log`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `cap_like`
 --
 ALTER TABLE `cap_like`
-  MODIFY `id_post` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_post` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `cap_post`
 --
 ALTER TABLE `cap_post`
-  MODIFY `id_post` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_post` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `cap_subscription`
 --
 ALTER TABLE `cap_subscription`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `pol_categorie`
@@ -818,13 +835,13 @@ ALTER TABLE `pol_categorie`
 -- AUTO_INCREMENT for table `pol_reponse_ticket`
 --
 ALTER TABLE `pol_reponse_ticket`
-  MODIFY `id_reponse` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id_reponse` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `pol_ticket`
 --
 ALTER TABLE `pol_ticket`
-  MODIFY `id_ticket` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id_ticket` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `role`
@@ -836,7 +853,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `user_log`
